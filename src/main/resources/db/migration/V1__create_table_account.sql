@@ -1,0 +1,5 @@
+CREATE TABLE account(
+    id VARCHAR(128) NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    balance DECIMAL(13, 2) NOT NULL default 0
+)
