@@ -1,7 +1,7 @@
 package com.bank.store
 
-import com.bank.entity.events.AccountCreatedEvent
-import com.bank.entity.events.MoneyCreditedEvent
+import com.bank.event.AccountCreatedEvent
+import com.bank.event.MoneyCreditedEvent
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test

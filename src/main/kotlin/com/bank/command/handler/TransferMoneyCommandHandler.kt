@@ -1,9 +1,9 @@
-package com.bank.commandhandler
-import com.bank.entity.Account
+package com.bank.command.handler
+import com.bank.domain.Account
 import com.bank.exceptions.AccountNotFoundException
 import com.bank.model.command.TransferMoneyCommand
-import com.bank.entity.events.MoneyCreditedEvent
-import com.bank.entity.events.MoneyDeductedEvent
+import com.bank.event.MoneyCreditedEvent
+import com.bank.event.MoneyDeductedEvent
 import com.bank.exceptions.InsufficientFundsException
 import com.bank.services.EventService
 import com.bank.store.EventStore

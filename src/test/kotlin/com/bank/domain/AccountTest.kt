@@ -1,8 +1,8 @@
-package com.bank.entity
+package com.bank.domain
 
-import com.bank.entity.events.AccountCreatedEvent
-import com.bank.entity.events.MoneyCreditedEvent
-import com.bank.entity.events.MoneyDeductedEvent
+import com.bank.event.AccountCreatedEvent
+import com.bank.event.MoneyCreditedEvent
+import com.bank.event.MoneyDeductedEvent
 import org.assertj.core.api.Assertions
 import org.junit.Test
 

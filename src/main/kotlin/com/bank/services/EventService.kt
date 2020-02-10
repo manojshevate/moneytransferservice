@@ -1,6 +1,6 @@
 package com.bank.services
 
-import com.bank.entity.events.Event
+import com.bank.event.Event
 
 open class EventService {
     open fun send(event: Event) {

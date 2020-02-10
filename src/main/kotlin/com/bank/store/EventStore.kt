@@ -1,6 +1,6 @@
 package com.bank.store
 
-import com.bank.entity.events.Event
+import com.bank.event.Event
 
 
 open class EventStore {
