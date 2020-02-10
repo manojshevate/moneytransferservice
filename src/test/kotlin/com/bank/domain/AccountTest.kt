@@ -23,7 +23,7 @@ class AccountTest {
         //then
         Assertions.assertThat(account.id).isNull()
         Assertions.assertThat(account.name).isNull()
-        Assertions.assertThat(account.amount).isEqualTo(0.0)
+        Assertions.assertThat(account.balance).isEqualTo(0.0)
     }
 
     @Test
@@ -37,7 +37,7 @@ class AccountTest {
         //then
         Assertions.assertThat(account.id).isEqualTo(ACCOUNT_ID)
         Assertions.assertThat(account.name).isEqualTo(ACCOUNT_NAME)
-        Assertions.assertThat(account.amount).isEqualTo(0.0)
+        Assertions.assertThat(account.balance).isEqualTo(0.0)
     }
 
     @Test
@@ -53,7 +53,7 @@ class AccountTest {
         //then
         Assertions.assertThat(account.id).isEqualTo(ACCOUNT_ID)
         Assertions.assertThat(account.name).isEqualTo(ACCOUNT_NAME)
-        Assertions.assertThat(account.amount).isEqualTo(AMOUNT * 2)
+        Assertions.assertThat(account.balance).isEqualTo(AMOUNT * 2)
     }
 
     @Test
@@ -68,7 +68,7 @@ class AccountTest {
         //then
         Assertions.assertThat(account.id).isEqualTo(ACCOUNT_ID)
         Assertions.assertThat(account.name).isEqualTo(ACCOUNT_NAME)
-        Assertions.assertThat(account.amount).isEqualTo(AMOUNT * -1)
+        Assertions.assertThat(account.balance).isEqualTo(AMOUNT * -1)
     }
 
     private fun anAccountCreatedEvent() : AccountCreatedEvent {

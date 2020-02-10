@@ -14,7 +14,7 @@ class TransferMoneyCommandHandler(private val eventStore: EventStore,
         fetchAccount(command.to)
         val fromAccount = fetchAccount(command.from)
 
-        if(fromAccount.amount < command.amount) {
+        if(fromAccount.balance < command.amount) {
             throw InsufficientFundsException(command.from)
         }
 

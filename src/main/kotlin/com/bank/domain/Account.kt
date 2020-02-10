@@ -8,7 +8,7 @@ import com.bank.event.MoneyDeductedEvent
 class Account {
 
     var name: String? = null
-    var amount: Double = 0.0
+    var balance: Double = 0.0
     var id: String? = null
 
     fun applyAll(events: List<Event>): Account {
@@ -29,11 +29,11 @@ class Account {
 
     private fun apply(event: MoneyCreditedEvent) {
         id = event.accountId
-        amount += event.amount
+        balance += event.amount
     }
 
     private fun apply(event: MoneyDeductedEvent) {
         id = event.accountId
-        amount -= event.amount
+        balance -= event.amount
     }
 }
