@@ -3,6 +3,7 @@ package com.bank.store
 import com.bank.event.Event
 
 
+// TODO: Use JSON storage in H2
 open class EventStore {
 
     companion object {
@@ -16,7 +17,7 @@ open class EventStore {
         }
     }
 
-    fun save(event: Event) {
+    open fun save(event: Event) {
         if(store.containsKey(event.id)) {
             store[event.id] = store[event.id]!!.plus(listOf(event))
         } else {

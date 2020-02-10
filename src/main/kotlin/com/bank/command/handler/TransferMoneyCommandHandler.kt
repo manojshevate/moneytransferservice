@@ -1,5 +1,6 @@
 package com.bank.command.handler
 import com.bank.domain.Account
+import com.bank.event.Event
 import com.bank.exceptions.AccountNotFoundException
 import com.bank.model.command.TransferMoneyCommand
 import com.bank.event.MoneyCreditedEvent
@@ -18,8 +19,15 @@ class TransferMoneyCommandHandler(private val eventStore: EventStore,
             throw InsufficientFundsException(command.from)
         }
 
-        eventService.send(MoneyDeductedEvent(command.from, command.amount))
-        eventService.send(MoneyCreditedEvent(command.to, command.amount))
+        MoneyDeductedEvent(command.from, command.amount).also { eventStore }
+
+        raiseEvent(MoneyDeductedEvent(command.from, command.amount))
+        raiseEvent(MoneyCreditedEvent(command.to, command.amount))
+    }
+
+    private fun raiseEvent(event: Event) {
+            eventStore.save(event)
+            eventService.send(event)
     }
 
     private fun fetchAccount(accountId: String): Account {

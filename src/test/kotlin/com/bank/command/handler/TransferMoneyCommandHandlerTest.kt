@@ -42,6 +42,8 @@ class TransferMoneyCommandHandlerTest {
         given(eventStore.fetchAll(any()))
             .willReturn(emptyList())
 
+        doNothing().`when`(eventStore).save(any())
+
     }
 
     @Test
@@ -119,7 +121,7 @@ class TransferMoneyCommandHandlerTest {
     }
 
     @Test
-    fun `handle - should send MoneyCredited to "TO" account and Money deducted from "FROM" account events`() {
+    fun `handle - happy path`() {
         //given
 
         doNothing().`when`(eventService).send(any())
@@ -145,8 +147,15 @@ class TransferMoneyCommandHandlerTest {
 
         verify(eventStore).fetchAll(TO_ACCOUNT_ID)
         verify(eventStore).fetchAll(FROM_ACCOUNT_ID)
-        verify(eventService).send(MoneyDeductedEvent(FROM_ACCOUNT_ID, 90.0))
-        verify(eventService).send(MoneyCreditedEvent(TO_ACCOUNT_ID, 90.0))
+
+        val moneyDeductedEvent = MoneyDeductedEvent(FROM_ACCOUNT_ID, 90.0)
+        val moneyCreditedEvent = MoneyCreditedEvent(TO_ACCOUNT_ID, 90.0)
+
+        verify(eventStore).save(moneyDeductedEvent)
+        verify(eventStore).save(moneyCreditedEvent)
+
+        verify(eventService).send(moneyDeductedEvent)
+        verify(eventService).send(moneyCreditedEvent)
     }
 
     private fun anAccountCreatedEvent(accountId: String) : AccountCreatedEvent {
