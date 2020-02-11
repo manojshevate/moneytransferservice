@@ -9,9 +9,9 @@ import com.bank.exceptions.InsufficientFundsException
 import com.bank.services.EventService
 import com.bank.store.EventStore
 
-class TransferMoneyCommandHandler(private val eventStore: EventStore,
+open class TransferMoneyCommandHandler(private val eventStore: EventStore,
                                   private val eventService: EventService) {
-    fun handle(command: TransferMoneyCommand) {
+    open fun handle(command: TransferMoneyCommand) {
         fetchAccount(command.to)
         val fromAccount = fetchAccount(command.from)
 

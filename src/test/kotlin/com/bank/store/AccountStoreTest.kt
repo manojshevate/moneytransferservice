@@ -39,7 +39,8 @@ class AccountStoreTest : StoreTestBase() {
     fun `update - should update existing record in db`() {
         //given
 
-        val userId = dbCtx.createAccount(ACCOUNT_ID, "Naruto Uzumaki")
+        dbCtx.createAccount(ACCOUNT_ID, "Naruto Uzumaki")
+
         //when
         subject.updateAccount(id = "account-id", balance = 15.25)
 

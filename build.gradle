@@ -15,12 +15,16 @@ dependencies {
     implementation "org.jooq:jooq:3.12.3"
     implementation "org.flywaydb:flyway-core:6.1.1"
     implementation "com.google.guava:guava:23.0"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.10.0"
+    implementation "com.google.inject:guice:4.2.2"
+    implementation "com.sparkjava:spark-kotlin:1.0.0-alpha"
 
     runtime 'com.h2database:h2:1.4.200'
 
     testCompile("junit:junit:4.12")
     testImplementation("com.nhaarman:mockito-kotlin:1.6.0")
     testImplementation("org.assertj:assertj-core:3.14.0")
+    testImplementation 'io.rest-assured:rest-assured:4.1.2'
 }
 
 compileKotlin {
