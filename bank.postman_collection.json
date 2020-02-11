@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "f65ea725-3bc8-4a23-85ac-ccc3497d047f",
+		"name": "bank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Sakura - Get Account",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4567/accounts/d0c91658-4c6e-11ea-b77f-2e728ce88125",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"accounts",
+						"d0c91658-4c6e-11ea-b77f-2e728ce88125"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Naruto - Get Account",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4567/accounts/cc856b46-4c6e-11ea-b77f-2e728ce88125",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"accounts",
+						"cc856b46-4c6e-11ea-b77f-2e728ce88125"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transfer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"from\" : \"cc856b46-4c6e-11ea-b77f-2e728ce88125\",\n\t\"to\" : \"d0c91658-4c6e-11ea-b77f-2e728ce88125\",\n\t\"amount\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4567/transfer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"transfer"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
