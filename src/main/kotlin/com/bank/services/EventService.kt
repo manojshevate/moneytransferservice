@@ -1,9 +1,8 @@
 package com.bank.services
 
 import com.bank.event.Event
+import com.google.common.eventbus.EventBus
 
-open class EventService {
-    open fun send(event: Event) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+open class EventService(private val eventBus: EventBus) {
+    open fun send(event: Event) = eventBus.post(event)
 }
