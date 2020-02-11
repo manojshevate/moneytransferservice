@@ -2,6 +2,7 @@ package com.bank.store.entity
 
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
+import java.math.BigDecimal
 
 data class AccountEntity(val id: String = "",
                          val name: String = "",
