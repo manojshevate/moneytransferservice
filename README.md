@@ -1,3 +1,6 @@
+## Money Transfer Service 
+[![Build Status](https://travis-ci.org/manojshevate/moneytransferservice.svg?branch=master)](https://travis-ci.org/manojshevate/moneytransferservice)
+
 ## Running tests
 `./gradlew clean test`
 
