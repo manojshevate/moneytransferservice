@@ -1,12 +1,11 @@
 package com.bank.controller
 
-import com.bank.controller.model.ErrorResponse
-import com.bank.exceptions.AccountNotFoundException
+import com.bank.base.exception.AccountNotFoundException
 import com.bank.services.AccountService
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Response
-import spark.Spark
-import spark.Spark.*
+import spark.Spark.exception
+import spark.Spark.get
 import javax.inject.Inject
 
 class AccountController {

@@ -1,4 +1,4 @@
-package com.bank.bean
+package com.bank.base.configuration
 
 import com.bank.command.handler.TransferMoneyCommandHandler
 import com.bank.event.listener.AccountEventListener

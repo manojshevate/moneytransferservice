@@ -1,8 +1,6 @@
 package com.bank.controller
 
-import com.bank.command.handler.TransferMoneyCommandHandler
 import com.bank.helper.startServer
-import com.bank.model.command.TransferMoneyCommand
 import com.bank.services.AccountService
 import com.bank.store.entity.AccountEntity
 import com.google.inject.AbstractModule
@@ -10,14 +8,12 @@ import com.google.inject.Guice
 import com.google.inject.Provides
 import com.nhaarman.mockito_kotlin.*
 import io.restassured.RestAssured.given
-import io.restassured.http.ContentType
 import org.hamcrest.Matchers
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 import spark.kotlin.stop
-import javax.security.auth.login.AccountNotFoundException
 
 class AccountControllerTest {
 
@@ -58,7 +54,7 @@ class AccountControllerTest {
     fun `getAccount - should 404 if the account does not exist`() {
         // given
         given(accountService.getAccount(any()))
-            .willThrow(com.bank.exceptions.AccountNotFoundException(INVALID_ACCOUNT_ID))
+            .willThrow(com.bank.base.exception.AccountNotFoundException(INVALID_ACCOUNT_ID))
 
         given()
             .port(port)

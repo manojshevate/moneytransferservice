@@ -1,9 +1,11 @@
-package com.bank.bean
+package com.bank.base.configuration
 
 import com.bank.store.AccountStore
 import com.bank.store.EventStore
-import com.google.common.eventbus.EventBus
-import com.google.inject.*
+import com.google.inject.Exposed
+import com.google.inject.PrivateModule
+import com.google.inject.Provides
+import com.google.inject.Singleton
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.flywaydb.core.Flyway

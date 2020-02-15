@@ -1,10 +1,10 @@
 package com.bank.controller
 
+import com.bank.base.exception.AccountNotFoundException
+import com.bank.base.exception.InsufficientFundsException
 import com.bank.command.handler.TransferMoneyCommandHandler
 import com.bank.controller.model.ErrorResponse
 import com.bank.controller.model.TransferRequest
-import com.bank.exceptions.AccountNotFoundException
-import com.bank.exceptions.InsufficientFundsException
 import com.bank.model.command.TransferMoneyCommand
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Response

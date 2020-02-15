@@ -1,11 +1,11 @@
 package com.bank.command.handler
+import com.bank.base.exception.AccountNotFoundException
+import com.bank.base.exception.InsufficientFundsException
 import com.bank.domain.Account
 import com.bank.event.Event
-import com.bank.exceptions.AccountNotFoundException
-import com.bank.model.command.TransferMoneyCommand
 import com.bank.event.MoneyCreditedEvent
 import com.bank.event.MoneyDeductedEvent
-import com.bank.exceptions.InsufficientFundsException
+import com.bank.model.command.TransferMoneyCommand
 import com.bank.services.EventService
 import com.bank.store.EventStore
 

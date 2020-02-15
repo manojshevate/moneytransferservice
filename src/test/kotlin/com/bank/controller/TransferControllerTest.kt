@@ -1,5 +1,6 @@
 package com.bank.controller
 
+import com.bank.base.exception.InsufficientFundsException
 import com.bank.command.handler.TransferMoneyCommandHandler
 import com.bank.helper.startServer
 import com.bank.model.command.TransferMoneyCommand
@@ -15,7 +16,6 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 import spark.kotlin.stop
-import javax.security.auth.login.AccountNotFoundException
 
 class TransferControllerTest {
 
@@ -89,7 +89,7 @@ class TransferControllerTest {
             amount = 10.0
         )
 
-        doThrow(com.bank.exceptions.AccountNotFoundException(INVALID_ACCOUNT_ID))
+        doThrow(com.bank.base.exception.AccountNotFoundException(INVALID_ACCOUNT_ID))
             .`when`(commandHandler).handle(any())
 
         given()
@@ -122,7 +122,7 @@ class TransferControllerTest {
             amount = 10.0
         )
 
-        doThrow(com.bank.exceptions.InsufficientFundsException(FROM_ACCOUNT_ID))
+        doThrow(InsufficientFundsException(FROM_ACCOUNT_ID))
             .`when`(commandHandler).handle(any())
 
         given()

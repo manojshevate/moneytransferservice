@@ -1,6 +1,6 @@
 package com.bank.services
 
-import com.bank.exceptions.AccountNotFoundException
+import com.bank.base.exception.AccountNotFoundException
 import com.bank.store.AccountStore
 import com.bank.store.entity.AccountEntity
 import com.nhaarman.mockito_kotlin.any

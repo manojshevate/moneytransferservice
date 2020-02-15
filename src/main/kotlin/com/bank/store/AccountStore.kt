@@ -1,6 +1,6 @@
 package com.bank.store
 
-import com.bank.exceptions.AccountNotFoundException
+import com.bank.base.exception.AccountNotFoundException
 import com.bank.store.entity.AccountEntity
 import com.bank.store.entity.store
 import com.bank.store.entity.updateBalance

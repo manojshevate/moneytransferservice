@@ -1,8 +1,8 @@
 package com.bank
 
-import com.bank.bean.AccountsModule
-import com.bank.bean.DatabaseModule
-import com.bank.bean.TransferModule
+import com.bank.base.configuration.AccountsModule
+import com.bank.base.configuration.DatabaseModule
+import com.bank.base.configuration.TransferModule
 import com.bank.controller.AccountController
 import com.bank.controller.TransferController
 import com.bank.event.AccountCreatedEvent

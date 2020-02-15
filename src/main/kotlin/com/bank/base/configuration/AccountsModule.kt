@@ -1,4 +1,4 @@
-package com.bank.bean
+package com.bank.base.configuration
 
 import com.bank.services.AccountService
 import com.bank.store.AccountStore
