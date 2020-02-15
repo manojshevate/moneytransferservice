@@ -7,7 +7,7 @@
 ## Running the app
 ```
 ./gradlew clean build
-java -jar ./build/libs/moneytransferservice-1.0-all.jar
+java -jar ./build/libs/moneytransferservice-1.0-SNAPSHOT-all.jar
 ```
 
 ## Postman script
