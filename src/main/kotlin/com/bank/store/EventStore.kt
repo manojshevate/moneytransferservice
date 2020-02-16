@@ -23,6 +23,7 @@ open class EventStore(private val dataSource: DataSource) {
                 .select(DSL.field("json_value"))
                 .from(DSL.table("event_store"))
                 .where(DSL.field("id").eq(id))
+                .orderBy(DSL.field("created_date"))
                 .fetch()?.map {
                     val json = it[0] as String
                     objectMapper.readValue(json, Event::class.java)!!
