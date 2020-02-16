@@ -23,7 +23,7 @@ open class AccountEventListener(private val accountStore: AccountStore,
     private fun handleAccountBalanceUpdate(accountId: String) {
         eventStore.fetchAll(id = accountId)
             .let {
-                Account().applyAll(it)
+                Account().applyAll(it!!)
             }.also {
                 accountStore.updateAccount(it.id!!, it.balance)
             }

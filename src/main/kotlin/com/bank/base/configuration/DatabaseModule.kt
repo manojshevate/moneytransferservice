@@ -43,8 +43,8 @@ class DatabaseModule : PrivateModule() {
     @Provides
     @Singleton
     @Exposed
-    fun eventStore(): EventStore {
-        return EventStore()
+    fun eventStore(dataSource: DataSource): EventStore {
+        return EventStore(dataSource)
     }
 
 }

@@ -2,11 +2,12 @@ package com.bank.store
 
 import com.bank.event.AccountCreatedEvent
 import com.bank.event.MoneyCreditedEvent
+import com.bank.helper.StoreTestBase
+import com.bank.helper.TestDatabase
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
 import org.junit.Test
 
-class EventStoreTest {
+class EventStoreTest : StoreTestBase(){
 
 
     companion object {
@@ -16,50 +17,45 @@ class EventStoreTest {
         private const val AMOUNT = 10.0
     }
 
-    private val eventStore: EventStore = EventStore()
-
-    @Before
-    internal fun setUp() {
-        eventStore.clearAll()
-    }
+    private val subject: EventStore = EventStore(TestDatabase.dataSource)
 
     @Test
     fun `should return empty list when no matching event present`() {
         //given
 
         //when
-        val result = eventStore.fetchAll(id = ACCOUNT_ID)
+        val result = subject.fetchAll(id = ACCOUNT_ID)
 
         //then
-         assertThat(result).isEmpty()
+         assertThat(result).isNullOrEmpty()
     }
 
     @Test
     fun `should return one event list after saving one event`() {
         //given
-        eventStore.save(anAccountCreatedEvent(ACCOUNT_ID))
-        eventStore.save(anAccountCreatedEvent(ACCOUNT_ID_2))
+        subject.save(anAccountCreatedEvent(ACCOUNT_ID))
+        subject.save(anAccountCreatedEvent(ACCOUNT_ID_2))
 
         //when
-        val result = eventStore.fetchAll(id = ACCOUNT_ID)
+        val result = subject.fetchAll(id = ACCOUNT_ID)
 
         //then
-        assertThat(result.size).isEqualTo(1)
+        assertThat(result?.size).isEqualTo(1)
     }
 
     @Test
     fun `should return multiple events after saving multiple events`() {
         //given
 
-        eventStore.save(anAccountCreatedEvent(ACCOUNT_ID))
-        eventStore.save(aMoneyCreditedEvent(ACCOUNT_ID))
-        eventStore.save(anAccountCreatedEvent(ACCOUNT_ID_2))
+        subject.save(anAccountCreatedEvent(ACCOUNT_ID))
+        subject.save(aMoneyCreditedEvent(ACCOUNT_ID))
+        subject.save(anAccountCreatedEvent(ACCOUNT_ID_2))
 
         //when
-        val result = eventStore.fetchAll(id = ACCOUNT_ID)
+        val result = subject.fetchAll(id = ACCOUNT_ID)
 
         //then
-        assertThat(result.size).isEqualTo(2)
+        assertThat(result?.size).isEqualTo(2)
     }
 
     private fun anAccountCreatedEvent(accountId: String) : AccountCreatedEvent {

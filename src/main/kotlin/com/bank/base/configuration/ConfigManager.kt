@@ -2,11 +2,8 @@ package com.bank.base.configuration
 
 import com.bank.controller.AccountController
 import com.bank.controller.TransferController
-import com.bank.event.AccountCreatedEvent
-import com.bank.event.MoneyCreditedEvent
 import com.bank.event.listener.AccountEventListener
 import com.bank.logger
-import com.bank.store.EventStore
 import com.google.common.eventbus.EventBus
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -42,7 +39,6 @@ class ConfigManager {
         }
 
         private fun prefillDataForTesting(injector: Injector) {
-            insertDummyEvents(injector.getInstance(EventStore::class.java))
             insertDummyDataInDB(injector.getInstance(DataSource::class.java))
         }
 
@@ -50,20 +46,10 @@ class ConfigManager {
             logger.info("########### Started pre-filling the data")
             val accountsSeedDataSql = object {}.javaClass
                 .classLoader
-                .getResource("db.data/accounts.sql")?.readText()
+                .getResource("db/data/dummy_data.sql")?.readText()
             DSL.using(dataSource.connection)
                 .execute(accountsSeedDataSql)
             logger.info("########### Finished pre-filling the data")
-        }
-
-        private fun insertDummyEvents(eventStore: EventStore) {
-            logger.info("########### Started inserting dummy events to store")
-            eventStore.save(AccountCreatedEvent(accountId = "cc856b46-4c6e-11ea-b77f-2e728ce88125", name = "Naruto"))
-            eventStore.save(AccountCreatedEvent(accountId = "d0c91658-4c6e-11ea-b77f-2e728ce88125", name = "Sakura"))
-
-            eventStore.save(MoneyCreditedEvent(accountId = "cc856b46-4c6e-11ea-b77f-2e728ce88125", amount = 12345.00))
-            eventStore.save(MoneyCreditedEvent(accountId = "d0c91658-4c6e-11ea-b77f-2e728ce88125", amount = 12345.00))
-            logger.info("########### Finished inserting dummy events to store")
         }
     }
 }

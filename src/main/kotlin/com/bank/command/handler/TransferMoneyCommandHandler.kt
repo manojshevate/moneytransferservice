@@ -1,11 +1,11 @@
 package com.bank.command.handler
 import com.bank.base.exception.AccountNotFoundException
 import com.bank.base.exception.InsufficientFundsException
+import com.bank.command.TransferMoneyCommand
 import com.bank.domain.Account
 import com.bank.event.Event
 import com.bank.event.MoneyCreditedEvent
 import com.bank.event.MoneyDeductedEvent
-import com.bank.command.TransferMoneyCommand
 import com.bank.services.EventService
 import com.bank.store.EventStore
 
@@ -30,9 +30,9 @@ open class TransferMoneyCommandHandler(private val eventStore: EventStore,
 
     private fun fetchAccount(accountId: String): Account {
         return eventStore.fetchAll(accountId).also {
-            if(it.isEmpty()) throw AccountNotFoundException(accountId)
+            if(it.isNullOrEmpty()) throw AccountNotFoundException(accountId)
         }.let {
-            Account().applyAll(it)
+            Account().applyAll(it!!)
         }
     }
 
