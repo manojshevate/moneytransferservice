@@ -23,7 +23,7 @@ class DatabaseModule : PrivateModule() {
         HikariConfig().apply {
             jdbcUrl = "jdbc:h2:mem:test"
             username = "sa"
-            maximumPoolSize = 10
+            maximumPoolSize = 20
         }
     )
 

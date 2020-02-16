@@ -5,7 +5,7 @@ import com.bank.domain.Account
 import com.bank.event.Event
 import com.bank.event.MoneyCreditedEvent
 import com.bank.event.MoneyDeductedEvent
-import com.bank.model.command.TransferMoneyCommand
+import com.bank.command.TransferMoneyCommand
 import com.bank.services.EventService
 import com.bank.store.EventStore
 
@@ -18,8 +18,6 @@ open class TransferMoneyCommandHandler(private val eventStore: EventStore,
         if(fromAccount.balance < command.amount) {
             throw InsufficientFundsException(command.from)
         }
-
-        MoneyDeductedEvent(command.from, command.amount).also { eventStore }
 
         raiseEvent(MoneyDeductedEvent(command.from, command.amount))
         raiseEvent(MoneyCreditedEvent(command.to, command.amount))

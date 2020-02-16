@@ -66,10 +66,11 @@ class AccountEventListenerTest {
     @Test
     fun `should handle money credited event`() {
         //given
-        given(eventStore.fetchAll(any()))
-            .willReturn(listOf(anAccountCreatedEvent()))
-
         val event = MoneyCreditedEvent(ACCOUNT_ID, AMOUNT)
+
+        given(eventStore.fetchAll(any()))
+            .willReturn(listOf(anAccountCreatedEvent(), event))
+
         //when
         eventBus.post(event)
 
@@ -81,10 +82,11 @@ class AccountEventListenerTest {
     @Test
     fun `should handle money deducted event`() {
         //given
-        given(eventStore.fetchAll(any()))
-            .willReturn(listOf(anAccountCreatedEvent(), aMoneyCreditedEvent()))
-
         val event = MoneyDeductedEvent(ACCOUNT_ID, AMOUNT)
+
+        given(eventStore.fetchAll(any()))
+            .willReturn(listOf(anAccountCreatedEvent(), aMoneyCreditedEvent(), event))
+
         //when
         eventBus.post(event)
 

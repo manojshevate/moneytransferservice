@@ -2,7 +2,6 @@ package com.bank.event.listener
 
 import com.bank.domain.Account
 import com.bank.event.AccountCreatedEvent
-import com.bank.event.Event
 import com.bank.event.MoneyCreditedEvent
 import com.bank.event.MoneyDeductedEvent
 import com.bank.store.AccountStore
@@ -13,23 +12,16 @@ open class AccountEventListener(private val accountStore: AccountStore,
                                 private val eventStore: EventStore) {
 
     @Subscribe
-    fun handleAccountCreation(event: AccountCreatedEvent) {
-        accountStore.createAccount(event.accountId, event.name)
-    }
+    fun handleAccountCreation(event: AccountCreatedEvent) = accountStore.createAccount(event.accountId, event.name)
 
     @Subscribe
-    fun handleAccountCredit(event: MoneyCreditedEvent) {
-        handleAccountBalanceUpdate(event.accountId, event)
-    }
+    fun handleAccountCredit(event: MoneyCreditedEvent) = handleAccountBalanceUpdate(event.accountId)
 
     @Subscribe
-    fun handleAccountDebit(event: MoneyDeductedEvent) {
-        handleAccountBalanceUpdate(event.accountId, event)
-    }
+    fun handleAccountDebit(event: MoneyDeductedEvent) = handleAccountBalanceUpdate(event.accountId)
 
-    private fun handleAccountBalanceUpdate(accountId: String, event: Event) {
+    private fun handleAccountBalanceUpdate(accountId: String) {
         eventStore.fetchAll(id = accountId)
-            .plus(event)
             .let {
                 Account().applyAll(it)
             }.also {

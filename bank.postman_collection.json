@@ -6,7 +6,26 @@
 	},
 	"item": [
 		{
-			"name": "Sakura - Get Account",
+			"name": "Sakura - Get Initial balance",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "475b83bc-98fa-4a2e-9146-1bc3e2b34e67",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Test balance\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.balance).to.eql(12345);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -26,7 +45,26 @@
 			"response": []
 		},
 		{
-			"name": "Naruto - Get Account",
+			"name": "Naruto - Get Initial balance",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "99ae6ba5-3dcd-4223-9b9a-510f2d402426",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Test balance\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.balance).to.eql(12345);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -47,6 +85,20 @@
 		},
 		{
 			"name": "Transfer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "05725402-f5c7-48f8-9da9-bfff19d31f86",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -59,7 +111,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"from\" : \"cc856b46-4c6e-11ea-b77f-2e728ce88125\",\n\t\"to\" : \"d0c91658-4c6e-11ea-b77f-2e728ce88125\",\n\t\"amount\": 10\n}",
+					"raw": "{\n\t\"from\" : \"cc856b46-4c6e-11ea-b77f-2e728ce88125\",\n\t\"to\" : \"d0c91658-4c6e-11ea-b77f-2e728ce88125\",\n\t\"amount\": 5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -75,6 +127,84 @@
 					"port": "4567",
 					"path": [
 						"transfer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sakura - Get balance after transfer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e29de743-9efe-4593-834f-b1b412c626d0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Test balance\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.balance).to.eql(12350);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4567/accounts/d0c91658-4c6e-11ea-b77f-2e728ce88125",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"accounts",
+						"d0c91658-4c6e-11ea-b77f-2e728ce88125"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Naruto - Get balance after transfer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a1611ffd-8207-4849-a09f-57fbe8975714",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Test balance\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.balance).to.eql(12340);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4567/accounts/cc856b46-4c6e-11ea-b77f-2e728ce88125",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4567",
+					"path": [
+						"accounts",
+						"cc856b46-4c6e-11ea-b77f-2e728ce88125"
 					]
 				}
 			},

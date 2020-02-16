@@ -5,7 +5,7 @@ import com.bank.base.exception.InsufficientFundsException
 import com.bank.command.handler.TransferMoneyCommandHandler
 import com.bank.controller.model.ErrorResponse
 import com.bank.controller.model.TransferRequest
-import com.bank.model.command.TransferMoneyCommand
+import com.bank.command.TransferMoneyCommand
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Response
 import spark.Spark.exception

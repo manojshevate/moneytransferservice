@@ -3,7 +3,7 @@ package com.bank.controller
 import com.bank.base.exception.InsufficientFundsException
 import com.bank.command.handler.TransferMoneyCommandHandler
 import com.bank.helper.startServer
-import com.bank.model.command.TransferMoneyCommand
+import com.bank.command.TransferMoneyCommand
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
 import com.google.inject.Provides

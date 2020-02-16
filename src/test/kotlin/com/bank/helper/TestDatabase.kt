@@ -13,7 +13,7 @@ class TestDatabase {
                 HikariConfig().apply {
                     jdbcUrl = "jdbc:h2:mem:test"
                     username = "sa"
-                    maximumPoolSize = 10
+                    maximumPoolSize = 20
                     connectionTimeout = 1000
                 }
             )

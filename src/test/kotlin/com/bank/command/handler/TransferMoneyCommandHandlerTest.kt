@@ -5,7 +5,7 @@ import com.bank.base.exception.InsufficientFundsException
 import com.bank.event.AccountCreatedEvent
 import com.bank.event.MoneyCreditedEvent
 import com.bank.event.MoneyDeductedEvent
-import com.bank.model.command.TransferMoneyCommand
+import com.bank.command.TransferMoneyCommand
 import com.bank.services.EventService
 import com.bank.store.EventStore
 import com.nhaarman.mockito_kotlin.*
