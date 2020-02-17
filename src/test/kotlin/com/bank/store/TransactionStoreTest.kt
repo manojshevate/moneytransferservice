@@ -45,13 +45,15 @@ class TransactionStoreTest : StoreTestBase() {
     @Test
     fun `getTransactionsByAccountId -  should return  transactions if found`() {
         //given
-        subject.insertTransaction(id = "transaction-id", from = "from-account", to = "to-account", amount = 10.0)
-        subject.insertTransaction(id = "transaction-id", to = "from-account", from = "to-account", amount = 10.0)
+        subject.insertTransaction(id = "transaction-id-1", from = "from-account", to = "to-account", amount = 10.0)
+        subject.insertTransaction(id = "transaction-id-2", to = "from-account", from = "to-account", amount = 10.0)
 
         //when
         val result = subject.getTransactionByAccountId("from-account")
 
         //then
         Assertions.assertThat(result.size).isEqualTo(2)
+        Assertions.assertThat(result[0].id).isEqualTo("transaction-id-1")
+        Assertions.assertThat(result[1].id).isEqualTo("transaction-id-2")
     }
 }

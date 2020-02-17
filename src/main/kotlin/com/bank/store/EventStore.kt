@@ -1,6 +1,6 @@
 package com.bank.store
 
-import com.bank.event.Event
+import com.bank.base.events.Event
 import com.bank.store.entity.EventEntity
 import com.bank.store.entity.store
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper

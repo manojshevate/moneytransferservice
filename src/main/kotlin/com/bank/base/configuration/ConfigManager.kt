@@ -2,8 +2,8 @@ package com.bank.base.configuration
 
 import com.bank.controller.AccountController
 import com.bank.controller.TransferController
-import com.bank.event.listener.AccountEventListener
-import com.bank.event.listener.TransactionEventListener
+import com.bank.projections.AccountsProjection
+import com.bank.projections.TransactionsProjection
 import com.bank.logger
 import com.google.common.eventbus.EventBus
 import com.google.inject.Guice
@@ -35,8 +35,8 @@ class ConfigManager {
         }
 
         private fun registerEventListener(injector: Injector) {
-            val accountEventListener = injector.getInstance(AccountEventListener::class.java)
-            val transactionEventListener = injector.getInstance(TransactionEventListener::class.java)
+            val accountEventListener = injector.getInstance(AccountsProjection::class.java)
+            val transactionEventListener = injector.getInstance(TransactionsProjection::class.java)
             injector.getInstance(EventBus::class.java).apply {
                 register(accountEventListener)
                 register(transactionEventListener)

@@ -2,11 +2,11 @@ package com.bank.command.handler
 
 import com.bank.base.exception.AccountNotFoundException
 import com.bank.base.exception.InsufficientFundsException
-import com.bank.event.AccountCreatedEvent
-import com.bank.event.MoneyCreditedEvent
-import com.bank.event.MoneyDeductedEvent
+import com.bank.base.events.AccountCreatedEvent
+import com.bank.base.events.MoneyCreditedEvent
+import com.bank.base.events.MoneyDeductedEvent
 import com.bank.command.TransferMoneyCommand
-import com.bank.event.TransactionCompletedEvent
+import com.bank.base.events.TransactionCompletedEvent
 import com.bank.services.EventService
 import com.bank.store.EventStore
 import com.nhaarman.mockito_kotlin.*

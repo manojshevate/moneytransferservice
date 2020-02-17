@@ -1,8 +1,8 @@
 package com.bank.base.configuration
 
 import com.bank.command.handler.TransferMoneyCommandHandler
-import com.bank.event.listener.AccountEventListener
-import com.bank.event.listener.TransactionEventListener
+import com.bank.projections.AccountsProjection
+import com.bank.projections.TransactionsProjection
 import com.bank.services.EventService
 import com.bank.store.AccountStore
 import com.bank.store.EventStore
@@ -30,15 +30,15 @@ class TransferModule : PrivateModule() {
     @Provides
     @Singleton
     @Exposed
-    fun accountEventListener(accountStore: AccountStore, eventStore: EventStore): AccountEventListener {
-        return AccountEventListener(accountStore, eventStore)
+    fun accountEventListener(accountStore: AccountStore, eventStore: EventStore): AccountsProjection {
+        return AccountsProjection(accountStore, eventStore)
     }
 
     @Provides
     @Singleton
     @Exposed
-    fun transactionEventListener(store: TransactionStore): TransactionEventListener {
-        return TransactionEventListener(store)
+    fun transactionEventListener(store: TransactionStore): TransactionsProjection {
+        return TransactionsProjection(store)
     }
 
     @Provides

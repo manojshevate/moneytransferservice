@@ -29,7 +29,7 @@ open class TransactionStore(private val dataSource: DataSource) {
                 .select(DSL.field("created_date"))
                 .from(DSL.table("transaction_store"))
                 .where(DSL.field("fromAccount").eq(accountId).or(DSL.field("toAccount").eq(accountId)))
-                .orderBy(DSL.field("created_date"))
+                .orderBy(DSL.field("created_date").sortDesc())
                 .fetch()
 
             record.map {

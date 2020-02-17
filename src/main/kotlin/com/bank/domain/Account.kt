@@ -1,9 +1,9 @@
 package com.bank.domain
 
-import com.bank.event.AccountCreatedEvent
-import com.bank.event.Event
-import com.bank.event.MoneyCreditedEvent
-import com.bank.event.MoneyDeductedEvent
+import com.bank.base.events.AccountCreatedEvent
+import com.bank.base.events.Event
+import com.bank.base.events.MoneyCreditedEvent
+import com.bank.base.events.MoneyDeductedEvent
 
 class Account {
 

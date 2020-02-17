@@ -1,4 +1,4 @@
-package com.bank.event
+package com.bank.base.events
 
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo

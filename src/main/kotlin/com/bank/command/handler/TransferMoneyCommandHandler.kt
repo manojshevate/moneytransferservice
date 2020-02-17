@@ -4,10 +4,10 @@ import com.bank.base.exception.InsufficientFundsException
 import com.bank.command.TransferMoneyCommand
 import com.bank.controller.dto.MoneyTransferResponse
 import com.bank.domain.Account
-import com.bank.event.Event
-import com.bank.event.MoneyCreditedEvent
-import com.bank.event.MoneyDeductedEvent
-import com.bank.event.TransactionCompletedEvent
+import com.bank.base.events.Event
+import com.bank.base.events.MoneyCreditedEvent
+import com.bank.base.events.MoneyDeductedEvent
+import com.bank.base.events.TransactionCompletedEvent
 import com.bank.services.EventService
 import com.bank.store.EventStore
 import java.util.*
@@ -26,7 +26,14 @@ open class TransferMoneyCommandHandler(private val eventStore: EventStore,
 
         raiseEvent(MoneyDeductedEvent(command.from, command.amount))
         raiseEvent(MoneyCreditedEvent(command.to, command.amount))
-        raiseEvent(TransactionCompletedEvent(transactionId, command.from, command.to, command.amount))
+        raiseEvent(
+            TransactionCompletedEvent(
+                transactionId,
+                command.from,
+                command.to,
+                command.amount
+            )
+        )
 
         return MoneyTransferResponse(transactionId)
     }

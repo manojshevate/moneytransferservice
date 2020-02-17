@@ -1,11 +1,9 @@
 package com.bank.services
 
-import com.bank.event.AccountCreatedEvent
+import com.bank.base.events.AccountCreatedEvent
 import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.Subscribe
-import com.nhaarman.mockito_kotlin.verify
 import org.assertj.core.api.Assertions
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 

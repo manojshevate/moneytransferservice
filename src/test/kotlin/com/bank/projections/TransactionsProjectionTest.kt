@@ -1,6 +1,6 @@
-package com.bank.event.listener
+package com.bank.projections
 
-import com.bank.event.TransactionCompletedEvent
+import com.bank.base.events.TransactionCompletedEvent
 import com.bank.store.TransactionStore
 import com.google.common.eventbus.EventBus
 import com.nhaarman.mockito_kotlin.any
@@ -14,7 +14,7 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class TransactionEventListenerTest {
+class TransactionsProjectionTest {
     companion object {
         private const val FROM_ACCOUNT_ID = "from_account_id"
         private const val TO_ACCOUNT_ID = "to_account_id"
@@ -30,7 +30,7 @@ class TransactionEventListenerTest {
     private lateinit var store : TransactionStore
 
     @InjectMocks
-    private lateinit var subject : TransactionEventListener
+    private lateinit var subject : TransactionsProjection
 
     @Before
     fun setUp() {
@@ -43,14 +43,25 @@ class TransactionEventListenerTest {
     @Test
     fun `should handle account created event`() {
         //given
-        val event = TransactionCompletedEvent(TRANSACTION_ID, FROM_ACCOUNT_ID, TO_ACCOUNT_ID, AMOUNT)
+        val event =
+            TransactionCompletedEvent(
+                TRANSACTION_ID,
+                FROM_ACCOUNT_ID,
+                TO_ACCOUNT_ID,
+                AMOUNT
+            )
 
         //when
         eventBus.post(event)
 
         //then
         Thread.sleep(TIME_OUT)
-        verify(store).insertTransaction(TRANSACTION_ID, FROM_ACCOUNT_ID, TO_ACCOUNT_ID, AMOUNT)
+        verify(store).insertTransaction(
+            TRANSACTION_ID,
+            FROM_ACCOUNT_ID,
+            TO_ACCOUNT_ID,
+            AMOUNT
+        )
     }
 
 }

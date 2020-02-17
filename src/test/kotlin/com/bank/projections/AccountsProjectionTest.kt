@@ -1,8 +1,8 @@
-package com.bank.event.listener
+package com.bank.projections
 
-import com.bank.event.AccountCreatedEvent
-import com.bank.event.MoneyCreditedEvent
-import com.bank.event.MoneyDeductedEvent
+import com.bank.base.events.AccountCreatedEvent
+import com.bank.base.events.MoneyCreditedEvent
+import com.bank.base.events.MoneyDeductedEvent
 import com.bank.store.AccountStore
 import com.bank.store.EventStore
 import com.nhaarman.mockito_kotlin.any
@@ -18,7 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner
 import com.google.common.eventbus.EventBus
 
 @RunWith(MockitoJUnitRunner::class)
-class AccountEventListenerTest {
+class AccountsProjectionTest {
 
     companion object {
         private const val ACCOUNT_ID = "account-id"
@@ -37,7 +37,7 @@ class AccountEventListenerTest {
     private lateinit var eventStore: EventStore
 
     @InjectMocks
-    private lateinit var subject : AccountEventListener
+    private lateinit var subject : AccountsProjection
 
     @Before
     fun setUp() {
@@ -51,20 +51,29 @@ class AccountEventListenerTest {
     @Test
     fun `should handle account created event`() {
         //given
-        val event = AccountCreatedEvent(ACCOUNT_ID, NAME)
+        val event = AccountCreatedEvent(
+            ACCOUNT_ID,
+            NAME
+        )
 
         //when
         eventBus.post(event)
 
         //then
         Thread.sleep(TIME_OUT)
-        verify(accountStore).createAccount(ACCOUNT_ID, NAME)
+        verify(accountStore).createAccount(
+            ACCOUNT_ID,
+            NAME
+        )
     }
 
     @Test
     fun `should handle money credited event`() {
         //given
-        val event = MoneyCreditedEvent(ACCOUNT_ID, AMOUNT)
+        val event = MoneyCreditedEvent(
+            ACCOUNT_ID,
+            AMOUNT
+        )
 
         given(eventStore.fetchAll(any()))
             .willReturn(listOf(anAccountCreatedEvent(), event))
@@ -74,13 +83,19 @@ class AccountEventListenerTest {
 
         //then
         Thread.sleep(TIME_OUT)
-        verify(accountStore).updateAccount(ACCOUNT_ID, AMOUNT)
+        verify(accountStore).updateAccount(
+            ACCOUNT_ID,
+            AMOUNT
+        )
     }
 
     @Test
     fun `should handle money deducted event`() {
         //given
-        val event = MoneyDeductedEvent(ACCOUNT_ID, AMOUNT)
+        val event = MoneyDeductedEvent(
+            ACCOUNT_ID,
+            AMOUNT
+        )
 
         given(eventStore.fetchAll(any()))
             .willReturn(listOf(anAccountCreatedEvent(), aMoneyCreditedEvent(), event))

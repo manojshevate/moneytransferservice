@@ -1,4 +1,4 @@
-package com.bank.event
+package com.bank.base.events
 
 data class TransactionCompletedEvent(
     val transactionId: String,

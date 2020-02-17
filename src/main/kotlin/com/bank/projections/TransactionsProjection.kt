@@ -1,10 +1,10 @@
-package com.bank.event.listener
+package com.bank.projections
 
-import com.bank.event.TransactionCompletedEvent
+import com.bank.base.events.TransactionCompletedEvent
 import com.bank.store.TransactionStore
 import com.google.common.eventbus.Subscribe
 
-open class TransactionEventListener(private val store: TransactionStore) {
+open class TransactionsProjection(private val store: TransactionStore) {
 
     @Subscribe
     fun handleTransactionCompletedEvent(event: TransactionCompletedEvent) {
