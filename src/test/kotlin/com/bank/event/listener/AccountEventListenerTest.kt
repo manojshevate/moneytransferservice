@@ -17,8 +17,6 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import com.google.common.eventbus.EventBus
 
-
-
 @RunWith(MockitoJUnitRunner::class)
 class AccountEventListenerTest {
 

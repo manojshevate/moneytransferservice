@@ -6,16 +6,19 @@ import com.bank.event.AccountCreatedEvent
 import com.bank.event.MoneyCreditedEvent
 import com.bank.event.MoneyDeductedEvent
 import com.bank.command.TransferMoneyCommand
+import com.bank.event.TransactionCompletedEvent
 import com.bank.services.EventService
 import com.bank.store.EventStore
 import com.nhaarman.mockito_kotlin.*
-import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.assertj.core.api.Assertions.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
+import java.lang.RuntimeException
+import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
 class TransferMoneyCommandHandlerTest {
@@ -141,21 +144,35 @@ class TransferMoneyCommandHandlerTest {
             amount = 90.0
         )
         //when
-        transferMoneyCommandHandler.handle(command)
+        val response = transferMoneyCommandHandler.handle(command)
 
         //then
+
+        try {
+            UUID.fromString(response.transactionId)
+        } catch (e: RuntimeException){
+            fail<String>("Transaction Id not in proper format")
+        }
 
         verify(eventStore).fetchAll(TO_ACCOUNT_ID)
         verify(eventStore).fetchAll(FROM_ACCOUNT_ID)
 
         val moneyDeductedEvent = MoneyDeductedEvent(FROM_ACCOUNT_ID, 90.0)
         val moneyCreditedEvent = MoneyCreditedEvent(TO_ACCOUNT_ID, 90.0)
+        val transactionCompletedEvent = TransactionCompletedEvent(
+            transactionId = "",
+            fromAccount = FROM_ACCOUNT_ID,
+            toAccount = TO_ACCOUNT_ID,
+            amount = 90.0
+        ).copy(transactionId = response.transactionId)
 
         verify(eventStore).save(moneyDeductedEvent)
         verify(eventStore).save(moneyCreditedEvent)
+        verify(eventStore).save(transactionCompletedEvent)
 
         verify(eventService).send(moneyDeductedEvent)
         verify(eventService).send(moneyCreditedEvent)
+        verify(eventService).send(transactionCompletedEvent)
     }
 
     private fun anAccountCreatedEvent(accountId: String) : AccountCreatedEvent {

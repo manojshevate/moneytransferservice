@@ -2,6 +2,7 @@ package com.bank.base.configuration
 
 import com.bank.store.AccountStore
 import com.bank.store.EventStore
+import com.bank.store.TransactionStore
 import com.google.inject.Exposed
 import com.google.inject.PrivateModule
 import com.google.inject.Provides
@@ -38,6 +39,13 @@ class DatabaseModule : PrivateModule() {
     @Exposed
     fun accountStore(dataSource: DataSource): AccountStore {
         return AccountStore(dataSource)
+    }
+
+    @Provides
+    @Singleton
+    @Exposed
+    fun transactionStore(dataSource: DataSource): TransactionStore {
+        return TransactionStore(dataSource)
     }
 
     @Provides

@@ -5,12 +5,13 @@ import com.bank.base.exception.InsufficientFundsException
 import com.bank.base.exception.InvalidRequestException
 import com.bank.command.TransferMoneyCommand
 import com.bank.command.handler.TransferMoneyCommandHandler
-import com.bank.controller.model.ErrorResponse
-import com.bank.controller.model.TransferRequest
+import com.bank.controller.dto.ErrorResponse
+import com.bank.controller.dto.TransferRequest
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import spark.Request
 import spark.Response
+import spark.Spark
 import spark.Spark.exception
 import spark.Spark.post
 import javax.inject.Inject
@@ -46,10 +47,12 @@ class TransferController {
                 amount = request.amount
             )
 
-            commandHandler.handle(command)
+            val response = commandHandler.handle(command)
 
             res.run {
-                status(204)
+                status(202)
+                res.type("application/json")
+                objectMapper.writeValueAsString(response)
             }
         }
 

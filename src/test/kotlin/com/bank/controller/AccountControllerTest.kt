@@ -1,8 +1,12 @@
 package com.bank.controller
 
+import com.bank.controller.dto.Transaction
+import com.bank.controller.dto.Type
 import com.bank.helper.startServer
 import com.bank.services.AccountService
+import com.bank.services.AccountServiceTest
 import com.bank.store.entity.AccountEntity
+import com.bank.store.entity.TransactionEntity
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
 import com.google.inject.Provides
@@ -14,6 +18,8 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 import spark.kotlin.stop
+import java.sql.Timestamp
+import java.time.Instant
 
 class AccountControllerTest {
 
@@ -89,6 +95,33 @@ class AccountControllerTest {
             .body("name", Matchers.equalTo("Naruto Uzumaki"))
 
         verify(accountService).getAccount(ACCOUNT_ID)
+    }
+
+    @Test
+    fun `getAccountTransactions - happy path`() {
+        // given
+        val now = Instant.now()
+        given(accountService.getTransactionsByAccountId(any()))
+            .willReturn(
+                listOf(
+                    Transaction(id = "1", fromAccount = ACCOUNT_ID, toAccount = "dummy-account-1", amount = 10.0, createdDate = Timestamp.from(now).toString(), type = Type.DEBIT),
+                    Transaction(id = "2", fromAccount = "dummy-account-1", toAccount = ACCOUNT_ID, amount = 5.0, createdDate = Timestamp.from(now).toString(), type = Type.CREDIT)
+                )
+            )
+
+        given()
+            .port(port)
+            .`when`()
+            .get("/accounts/$ACCOUNT_ID/transactions")
+            .then()
+            .statusCode(200)
+            .body("transactions.size()", Matchers.equalTo(2))
+            .body("transactions[0].fromAccount", Matchers.equalTo(ACCOUNT_ID))
+            .body("transactions[0].type", Matchers.equalTo(Type.DEBIT.toString()))
+            .body("transactions[1].toAccount", Matchers.equalTo(ACCOUNT_ID))
+            .body("transactions[1].type", Matchers.equalTo(Type.CREDIT.toString()))
+
+        verify(accountService).getTransactionsByAccountId(ACCOUNT_ID)
     }
 
 

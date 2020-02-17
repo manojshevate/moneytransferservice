@@ -2,9 +2,11 @@ package com.bank.base.configuration
 
 import com.bank.command.handler.TransferMoneyCommandHandler
 import com.bank.event.listener.AccountEventListener
+import com.bank.event.listener.TransactionEventListener
 import com.bank.services.EventService
 import com.bank.store.AccountStore
 import com.bank.store.EventStore
+import com.bank.store.TransactionStore
 import com.google.common.eventbus.EventBus
 import com.google.inject.Exposed
 import com.google.inject.PrivateModule
@@ -28,8 +30,15 @@ class TransferModule : PrivateModule() {
     @Provides
     @Singleton
     @Exposed
-    fun eventListener(accountStore: AccountStore, eventStore: EventStore): AccountEventListener {
+    fun accountEventListener(accountStore: AccountStore, eventStore: EventStore): AccountEventListener {
         return AccountEventListener(accountStore, eventStore)
+    }
+
+    @Provides
+    @Singleton
+    @Exposed
+    fun transactionEventListener(store: TransactionStore): TransactionEventListener {
+        return TransactionEventListener(store)
     }
 
     @Provides

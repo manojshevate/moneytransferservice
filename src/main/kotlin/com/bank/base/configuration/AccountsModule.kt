@@ -2,6 +2,7 @@ package com.bank.base.configuration
 
 import com.bank.services.AccountService
 import com.bank.store.AccountStore
+import com.bank.store.TransactionStore
 import com.google.inject.Exposed
 import com.google.inject.PrivateModule
 import com.google.inject.Provides
@@ -15,8 +16,8 @@ class AccountsModule : PrivateModule() {
     @Provides
     @Singleton
     @Exposed
-    fun accountService(accountStore: AccountStore): AccountService {
-        return AccountService(accountStore)
+    fun accountService(accountStore: AccountStore, transactionStore: TransactionStore): AccountService {
+        return AccountService(accountStore, transactionStore)
     }
 
 }

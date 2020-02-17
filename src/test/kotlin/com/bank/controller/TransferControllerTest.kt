@@ -1,8 +1,10 @@
 package com.bank.controller
 
+import com.bank.base.exception.AccountNotFoundException
 import com.bank.base.exception.InsufficientFundsException
 import com.bank.command.TransferMoneyCommand
 import com.bank.command.handler.TransferMoneyCommandHandler
+import com.bank.controller.dto.MoneyTransferResponse
 import com.bank.helper.startServer
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
@@ -10,7 +12,7 @@ import com.google.inject.Provides
 import com.nhaarman.mockito_kotlin.*
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.*
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
@@ -53,13 +55,15 @@ class TransferControllerTest {
     }
 
     @Test
-    fun `transfer - should return 204 for successful transaction`() {
+    fun `transfer - should return 202 for successful transaction`() {
         val command = TransferMoneyCommand(
             from = FROM_ACCOUNT_ID,
             to = TO_ACCOUNT_ID,
             amount = 10.0
         )
-        doNothing().`when`(commandHandler).handle(any())
+
+        given(commandHandler.handle(any()))
+            .willReturn(MoneyTransferResponse(transactionId = "transaction-id"))
 
         given()
             .contentType(ContentType.JSON)
@@ -74,7 +78,8 @@ class TransferControllerTest {
             .`when`()
             .post("/transfer")
             .then()
-            .statusCode(204)
+            .statusCode(202)
+            .body("transactionId", equalTo("transaction-id"))
 
 
         // then
@@ -89,7 +94,7 @@ class TransferControllerTest {
             amount = 10.0
         )
 
-        doThrow(com.bank.base.exception.AccountNotFoundException(INVALID_ACCOUNT_ID))
+        doThrow(AccountNotFoundException(INVALID_ACCOUNT_ID))
             .`when`(commandHandler).handle(any())
 
         given()
@@ -106,8 +111,8 @@ class TransferControllerTest {
             .post("/transfer")
             .then()
             .statusCode(400)
-            .body("errorCode", Matchers.equalTo("bad_request"))
-            .body("errorMessage", Matchers.equalTo("Account id: $INVALID_ACCOUNT_ID not found"))
+            .body("errorCode", equalTo("bad_request"))
+            .body("errorMessage", equalTo("Account id: $INVALID_ACCOUNT_ID not found"))
 
 
         // then
@@ -139,8 +144,8 @@ class TransferControllerTest {
             .post("/transfer")
             .then()
             .statusCode(400)
-            .body("errorCode", Matchers.equalTo("bad_request"))
-            .body("errorMessage", Matchers.equalTo("insufficient funds in account $FROM_ACCOUNT_ID"))
+            .body("errorCode", equalTo("bad_request"))
+            .body("errorMessage", equalTo("insufficient funds in account $FROM_ACCOUNT_ID"))
 
 
         // then
@@ -163,8 +168,8 @@ class TransferControllerTest {
             .post("/transfer")
             .then()
             .statusCode(400)
-            .body("errorCode", Matchers.equalTo("bad_request"))
-            .body("errorMessage", Matchers.equalTo("Can not send money to your own account"))
+            .body("errorCode", equalTo("bad_request"))
+            .body("errorMessage", equalTo("Can not send money to your own account"))
 
 
 
@@ -188,8 +193,8 @@ class TransferControllerTest {
             .post("/transfer")
             .then()
             .statusCode(400)
-            .body("errorCode", Matchers.equalTo("bad_request"))
-            .body("errorMessage", Matchers.equalTo("Invalid transfer amount"))
+            .body("errorCode", equalTo("bad_request"))
+            .body("errorMessage", equalTo("Invalid transfer amount"))
 
         // then
         verifyZeroInteractions(commandHandler)
@@ -210,8 +215,8 @@ class TransferControllerTest {
             .post("/transfer")
             .then()
             .statusCode(400)
-            .body("errorCode", Matchers.equalTo("bad_request"))
-            .body("errorMessage", Matchers.equalTo("Invalid request object"))
+            .body("errorCode", equalTo("bad_request"))
+            .body("errorMessage", equalTo("Invalid request object"))
 
         // then
         verifyZeroInteractions(commandHandler)

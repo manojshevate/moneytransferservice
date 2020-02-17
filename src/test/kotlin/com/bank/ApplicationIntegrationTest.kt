@@ -19,6 +19,8 @@ class ApplicationIntegrationTest {
         private const val FROM_ACCOUNT_ID = "cc856b46-4c6e-11ea-b77f-2e728ce88125"
         private const val TO_ACCOUNT_ID = "d0c91658-4c6e-11ea-b77f-2e728ce88125"
 
+        private const val REPEAT_COUNT = 9
+
         private var port: Int = 0
 
         @AfterClass
@@ -46,12 +48,15 @@ class ApplicationIntegrationTest {
         getAccount(FROM_ACCOUNT_ID).assertBalance(12345.0f)
         getAccount(TO_ACCOUNT_ID).assertBalance(12345.0f)
 
-        repeat(9) {
+        repeat(REPEAT_COUNT) {
             transferMoney(FROM_ACCOUNT_ID, TO_ACCOUNT_ID, 5.0f)
         }
 
         getAccount(FROM_ACCOUNT_ID).assertBalance(12300.0f)
         getAccount(TO_ACCOUNT_ID).assertBalance(12390.0f)
+
+        getTransactions(FROM_ACCOUNT_ID)
+        getTransactions(TO_ACCOUNT_ID)
 
     }
 
@@ -69,7 +74,7 @@ class ApplicationIntegrationTest {
             .`when`()
             .post("/transfer")
             .then()
-            .statusCode(204)
+            .statusCode(202)
     }
 
     private fun getAccount(accountId: String): ValidatableResponse {
@@ -81,6 +86,16 @@ class ApplicationIntegrationTest {
             .statusCode(200)
     }
 
+
+    private fun getTransactions(accountId: String): ValidatableResponse {
+        return given()
+            .port(port)
+            .`when`()
+            .get("/accounts/$accountId/transactions")
+            .then()
+            .statusCode(200)
+            .body("transactions.size()", Matchers.equalTo(REPEAT_COUNT))
+    }
     private fun ValidatableResponse.assertBalance(amount: Float) {
         this.body("balance", Matchers.equalTo(amount))
     }
