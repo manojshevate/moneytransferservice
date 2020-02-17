@@ -1,5 +1,6 @@
 package com.bank
 
+import com.bank.controller.TransferControllerTest
 import com.bank.helper.startServer
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -58,6 +59,51 @@ class ApplicationIntegrationTest {
         getTransactions(FROM_ACCOUNT_ID)
         getTransactions(TO_ACCOUNT_ID)
 
+    }
+
+    @Test
+    fun `transfer to invalid account should fail`() {
+        val invalidAccountId = "invalid-account"
+        given()
+            .contentType(ContentType.JSON)
+            .body(
+                """{
+                            "from": "$FROM_ACCOUNT_ID",
+                            "to": "$invalidAccountId",
+                            "amount": 10.0
+                        }""".trimMargin()
+            )
+            .port(port)
+            .`when`()
+            .post("/transfer")
+            .then()
+            .statusCode(400)
+            .body("errorCode", Matchers.equalTo("bad_request"))
+            .body("errorMessage",
+                Matchers.equalTo("Account id: $invalidAccountId not found")
+            )
+    }
+
+    @Test
+    fun `transfer should fail if balance is not sufficient`() {
+        given()
+            .contentType(ContentType.JSON)
+            .body(
+                """{
+                            "from": "$FROM_ACCOUNT_ID",
+                            "to": "$TO_ACCOUNT_ID",
+                            "amount": 54321.0
+                        }""".trimMargin()
+            )
+            .port(port)
+            .`when`()
+            .post("/transfer")
+            .then()
+            .statusCode(400)
+            .body("errorCode", Matchers.equalTo("bad_request"))
+            .body("errorMessage",
+                Matchers.equalTo("insufficient funds in account $FROM_ACCOUNT_ID")
+            )
     }
 
     private fun transferMoney(from: String, to: String, amount: Float) {
